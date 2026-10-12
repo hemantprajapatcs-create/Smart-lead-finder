@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Smart Lead Finder</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-mark">SL</div>
+        <div class="brand-copy">
+          <strong>Smart Lead Finder</strong
+          ><span>Sales intelligence workspace</span>
+        </div>
+        <nav>
+          <a class="nav-link active" href="#dashboard"
+            >▦ &nbsp; Lead dashboard</a
+          >
+          <a class="nav-link" href="#leads">◎ &nbsp; Lead database</a>
+          <a class="nav-link" href="#how">ⓘ &nbsp; How scoring works</a>
+        </nav>
+        <div class="sidebar-note">
+          <span class="status-dot"></span> Local demo workspace
+          <p>
+            Sample records are synthetic and intended for demonstration only.
+          </p>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">SALES OPERATIONS / PROSPECTING</p>
+            <h1>Lead intelligence</h1>
+            <p class="subhead">
+              Find, qualify, and prioritize business prospects.
+            </p>
+          </div>
+          <button class="button button-primary" id="openAdd">
+            ＋ Add lead
+          </button>
+        </header>
+
+        <section class="stats-grid" id="dashboard">
+          <article class="stat-card">
+            <div class="stat-label">Total leads <span>↗</span></div>
+            <div class="stat-value" id="totalStat">—</div>
+            <div class="stat-foot">Records in this workspace</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">High priority <span>✦</span></div>
+            <div class="stat-value" id="highStat">—</div>
+            <div class="stat-foot">Score of 80 or above</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Duplicate records <span>⧉</span></div>
+            <div class="stat-value" id="duplicateStat">—</div>
+            <div class="stat-foot">Review before outreach</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Industries <span>◈</span></div>
+            <div class="stat-value" id="industryStat">—</div>
+            <div class="stat-foot">Unique industry categories</div>
+          </article>
+        </section>
+
+        <section class="panel" id="leads">
+          <div class="panel-heading">
+            <div>
+              <h2>Prospect list</h2>
+              <p>Filter records and focus on the most relevant leads.</p>
+            </div>
+            <button class="button button-secondary" id="exportBtn">
+              ⇩ Export CSV
+            </button>
+          </div>
+          <div class="filters">
+            <label class="search-wrap"
+              ><span>⌕</span
+              ><input
+                id="searchInput"
+                placeholder="Search company, industry or location..."
+            /></label>
+            <select id="industryFilter" aria-label="Filter by industry">
+              <option value="">All industries</option>
+            </select>
+            <input
+              id="locationFilter"
+              placeholder="Location"
+              aria-label="Filter by location"
+            />
+            <select id="tierFilter" aria-label="Filter by priority">
+              <option value="">All priorities</option>
+              <option value="A">A — High</option>
+              <option value="B">B — Medium</option>
+              <option value="C">C — Explore</option>
+            </select>
+          </div>
+          <div class="table-meta">
+            <span id="resultsLabel">Loading leads…</span
+            ><span class="sort-label">Sorted by lead score ↓</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Industry / Location</th>
+                  <th>Team size</th>
+                  <th>Lead score</th>
+                  <th>Priority</th>
+                  <th>Data quality</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="leadsBody">
+                <tr>
+                  <td colspan="7" class="empty">Loading leads…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span
+              >Scoring is rule-based and explainable, not an AI
+              prediction.</span
+            ><button class="text-button" id="resetBtn">Reset filters</button>
+          </div>
+        </section>
+
+        <section class="panel how-panel" id="how">
+          <div>
+            <p class="eyebrow">TRANSPARENT BY DESIGN</p>
+            <h2>How lead scoring works</h2>
+            <p class="subhead">
+              A simple, explainable heuristic helps users prioritize records for
+              manual review.
+            </p>
+          </div>
+          <div class="scoring-grid">
+            <div class="score-rule">
+              <strong>+30</strong><span>Target technology industry</span>
+            </div>
+            <div class="score-rule">
+              <strong>+25</strong><span>Team size between 10–100</span>
+            </div>
+            <div class="score-rule">
+              <strong>+20</strong><span>Website is provided</span>
+            </div>
+            <div class="score-rule">
+              <strong>+15</strong><span>Location is provided</span>
+            </div>
+            <div class="score-rule">
+              <strong>+10</strong><span>Revenue estimate provided</span>
+            </div>
+          </div>
+          <p class="fine-print">
+            Scores are prioritization hints only. Verify all company details
+            before using them for business decisions. This prototype does not
+            scrape websites or verify contact details.
+          </p>
+        </section>
+        <footer>
+          Smart Lead Finder · Portfolio prototype · Synthetic sample data
+        </footer>
+      </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="modalBackdrop">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">WORKSPACE</p>
+            <h2 id="modalTitle">Add a lead</h2>
+          </div>
+          <button
+            class="icon-button"
+            id="closeModal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form id="addForm">
+          <label
+            >Company name *<input
+              name="company"
+              required
+              maxlength="120"
+              placeholder="Example Company"
+          /></label>
+          <label
+            >Website<input name="website" placeholder="https://example.com"
+          /></label>
+          <div class="form-row">
+            <label
+              >Industry<input name="industry" placeholder="Software" /></label
+            ><label
+              >Location<input name="location" placeholder="City, Country"
+            /></label>
+          </div>
+          <div class="form-row">
+            <label
+              >Revenue estimate (USD thousands)<input
+                name="revenue_k"
+                type="number"
+                min="0"
+                step="1"
+                value="0" /></label
+            ><label
+              >Employees<input
+                name="employees"
+                type="number"
+                min="0"
+                step="1"
+                value="0"
+            /></label>
+          </div>
+          <label
+            >Notes<input
+              name="notes"
+              placeholder="Where was this lead sourced?"
+          /></label>
+          <p class="form-help">
+            Only add data you are permitted to store. Use synthetic details for
+            demos.
+          </p>
+          <div class="modal-actions">
+            <button
+              type="button"
+              class="button button-secondary"
+              id="cancelAdd"
+            >
+              Cancel</button
+            ><button class="button button-primary" type="submit">
+              Save lead
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
